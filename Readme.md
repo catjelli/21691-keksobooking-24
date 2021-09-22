@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Valery](https://up.htmlacademy.ru/javascript/24/user/21691).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Шершнев](https://htmlacademy.ru/profile/id587797).
 
 ---
 
