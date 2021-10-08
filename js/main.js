@@ -1,11 +1,11 @@
-const getRandomIntFromRange = function (min, max) {
+const getRandomIntFromRange = (min, max) => {
   if (max > min && max >= 0 && min >= 0) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
   return Error('Неверный аргумент');
 };
 
-const getRandomFromRange = function (min, max, digits) {
+const getRandomFromRange = (min, max, digits) => {
   if (max > min && max >= 0 && min >= 0 && digits >= 0) {
     const randomFromRange = Math.random() * (max - min) + min;
     return +randomFromRange.toFixed(digits);
@@ -17,57 +17,75 @@ const getRandomFromRange = function (min, max, digits) {
 
 const OFFER_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
-const OFFER_TIME = ['12:00', '13:00', '14:00'];
+const OFFER_TIMES = ['12:00', '13:00', '14:00'];
 
 const OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-const offerPhotosAddress = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/';
+const OFFER_PHOTOS_ADDRESS = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/';
 
 const OFFER_PHOTOS = [
-  `${offerPhotosAddress}duonguyen-8LrGtIxxa4w.jpg`,
-  `${offerPhotosAddress}brandon-hoogenboom-SNxQGWxZQi0.jpg`,
-  `${offerPhotosAddress}claire-rendall-b6kAwr1i0Iw.jpg`,
+  `${OFFER_PHOTOS_ADDRESS}duonguyen-8LrGtIxxa4w.jpg`,
+  `${OFFER_PHOTOS_ADDRESS}brandon-hoogenboom-SNxQGWxZQi0.jpg`,
+  `${OFFER_PHOTOS_ADDRESS}claire-rendall-b6kAwr1i0Iw.jpg`,
 ];
 
-const AVATAR_COUNT = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']; //Оставила массив в соответствии с ДЗ
+const AVATAR_COUNT = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'];
 
-const getRandomArrayElement = function (elements) {
-  return elements[getRandomIntFromRange(0, elements.length - 1)];
+const offerRooms = {
+  MIN: 1,
+  MAX: 3,
 };
 
-const getAvatarAddress = function () {
-  return `img/avatars/user${getRandomArrayElement(AVATAR_COUNT)}.png`;
+const offerGuests = {
+  MIN: 1,
+  MAX: 3,
 };
 
-const offerLocation = {
-  lat: getRandomFromRange(35.65000, 35.70000, 5),//широта, случайное значение от 35.65000 до 35.70000
-  lng: getRandomFromRange(139.70000, 139.80000, 5),//долгота, случайное значение от 139.70000 до 139.80000
+const offerPrice = {
+  MIN: 1000,
+  MAX: 10000,
 };
 
-const author = {
-  avatar: getAvatarAddress(),
+const offerLocationLat = {
+  MIN: 35.65000,
+  MAX: 35.70000,
 };
 
-const offer = {
-  title: 'Предложение',
-  address: `${offerLocation.lat}, ${offerLocation.lng}`,
-  price: getRandomIntFromRange(1000, 100000),//Случайное целое положительное число.
-  type: getRandomArrayElement(OFFER_TYPES),
-  rooms: getRandomIntFromRange(1, 3),//Случайное целое положительное число.
-  guests: getRandomIntFromRange(1, 3),//Случайное целое положительное число.
-  checkin: getRandomArrayElement(OFFER_TIME),
-  checkout: getRandomArrayElement(OFFER_TIME),
-  features: OFFER_FEATURES.slice(getRandomIntFromRange(1, 6)),//массив случайной длины из значений OFFER_FEATURES.
-  description: 'Описание',
-  photos: OFFER_PHOTOS.slice(getRandomIntFromRange(1, 3)),//массив случайной длины из значений OFFER_PHOTOS
+const offerLocationLng = {
+  MIN: 139.70000,
+  MAX: 139.80000,
 };
 
-const createAdvertisement = function () {
-  return {
-    author: author,
-    offer: offer,
-    offerLocation: offerLocation,
-  };
-};
+const getRandomArrayElement = (elements) => elements[getRandomIntFromRange(0, elements.length - 1)];
+
+const getAvatarAddress = () => `img/avatars/user${getRandomArrayElement(AVATAR_COUNT)}.png`;
+
+const createAdvertisement = () => (
+  {
+    offer: {
+      title: 'Предложение',
+      address: `${getRandomFromRange(offerLocationLat.MIN, offerLocationLat.MAX, 5)}, ${getRandomFromRange(offerLocationLng.MIN, offerLocationLng.MAX, 5)}`,
+      price: getRandomIntFromRange(offerPrice.MIN, offerPrice.MAX),
+      type: getRandomArrayElement(OFFER_TYPES),
+      rooms: getRandomIntFromRange(offerRooms.MIN, offerRooms.MAX),
+      guests: getRandomIntFromRange(offerGuests.MIN, offerGuests.MAX),
+      checkin: getRandomArrayElement(OFFER_TIMES),
+      checkout: getRandomArrayElement(OFFER_TIMES),
+      features: OFFER_FEATURES.slice(getRandomIntFromRange(1, 6)),
+      description: 'Описание',
+      photos: OFFER_PHOTOS.slice(getRandomIntFromRange(1, 3)),
+    },
+    author: {
+      avatar: getAvatarAddress(),
+    },
+    offerLocation: {
+      lat: getRandomFromRange(offerLocationLat.MIN, offerLocationLat.MAX, 5),
+      lng: getRandomFromRange(offerLocationLng.MIN, offerLocationLng.MAX, 5),
+    },
+  }
+);
 
 const similarAdvertisements = Array.from({length: 10}, createAdvertisement);
+
+// eslint-disable-next-line
+console.log(similarAdvertisements);
