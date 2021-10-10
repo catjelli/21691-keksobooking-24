@@ -29,46 +29,47 @@ const OFFER_PHOTOS = [
   `${OFFER_PHOTOS_ADDRESS}claire-rendall-b6kAwr1i0Iw.jpg`,
 ];
 
-const AVATAR_COUNT = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'];
-
-const offerRooms = {
+const OfferRooms = {
   MIN: 1,
   MAX: 3,
 };
 
-const offerGuests = {
+const OfferGuests = {
   MIN: 1,
   MAX: 3,
 };
 
-const offerPrice = {
+const OfferPrice = {
   MIN: 1000,
   MAX: 10000,
 };
 
-const offerLocationLat = {
+const LocationLat = {
   MIN: 35.65000,
   MAX: 35.70000,
 };
 
-const offerLocationLng = {
+const LocationLng = {
   MIN: 139.70000,
   MAX: 139.80000,
 };
 
 const getRandomArrayElement = (elements) => elements[getRandomIntFromRange(0, elements.length - 1)];
 
-const getAvatarAddress = () => `img/avatars/user${getRandomArrayElement(AVATAR_COUNT)}.png`;
+const getAvatarAddress = (i) => `img/avatars/user${i < 10 ? `0${i}` : i}.png`;
 
-const createAdvertisement = () => (
-  {
+const createAdvertisement = (currentItem, index) => {
+  const lat = getRandomFromRange(LocationLat.MIN, LocationLat.MAX, 5);
+  const lng = getRandomFromRange(LocationLng.MIN, LocationLng.MAX, 5);
+
+  return {
     offer: {
       title: 'Предложение',
-      address: `${getRandomFromRange(offerLocationLat.MIN, offerLocationLat.MAX, 5)}, ${getRandomFromRange(offerLocationLng.MIN, offerLocationLng.MAX, 5)}`,
-      price: getRandomIntFromRange(offerPrice.MIN, offerPrice.MAX),
+      address: `${lat}, ${lng}`,
+      price: getRandomIntFromRange(OfferPrice.MIN, OfferPrice.MAX),
       type: getRandomArrayElement(OFFER_TYPES),
-      rooms: getRandomIntFromRange(offerRooms.MIN, offerRooms.MAX),
-      guests: getRandomIntFromRange(offerGuests.MIN, offerGuests.MAX),
+      rooms: getRandomIntFromRange(OfferRooms.MIN, OfferRooms.MAX),
+      guests: getRandomIntFromRange(OfferGuests.MIN, OfferGuests.MAX),
       checkin: getRandomArrayElement(OFFER_TIMES),
       checkout: getRandomArrayElement(OFFER_TIMES),
       features: OFFER_FEATURES.slice(getRandomIntFromRange(1, 6)),
@@ -76,14 +77,14 @@ const createAdvertisement = () => (
       photos: OFFER_PHOTOS.slice(getRandomIntFromRange(1, 3)),
     },
     author: {
-      avatar: getAvatarAddress(),
+      avatar: getAvatarAddress(index),
     },
-    offerLocation: {
-      lat: getRandomFromRange(offerLocationLat.MIN, offerLocationLat.MAX, 5),
-      lng: getRandomFromRange(offerLocationLng.MIN, offerLocationLng.MAX, 5),
+    location: {
+      lat: lat,
+      lng: lng,
     },
-  }
-);
+  };
+};
 
 const similarAdvertisements = Array.from({length: 10}, createAdvertisement);
 
